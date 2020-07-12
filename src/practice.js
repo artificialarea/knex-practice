@@ -1,3 +1,4 @@
+require('dotenv').config()
 const knex = require('knex')
 
 const knexInstance = knex({
@@ -5,17 +6,34 @@ const knexInstance = knex({
     connection: process.env.DB_URL,
 })
 
-console.log('knex and driver installed correctly')
+// Knex query syntax equivalent to a SQL SELECT query
+// NOTE: this is asynchronous now, you will need to ctrl-c to close the script.
 
-// Knex query syntax variants
-// equivalent to SQL SELECT query
-// const q1 = knexInstance('amazong_products').select('*').toQuery()
-// const q2 = knexInstance.from('amazong_products').select('*').toQuery()
-// console.log('q1: ', q1)
-// console.log('q2: ', q2)
+// 1.
+// console.log(knexInstance.from('amazong_products').select('*').toQuery())
+// knexInstance
+//     .from('amazong_products')
+//     .select('*')
+//     .then(result => {
+//         console.log(result)
+//     })
 
-// Note: this is the first point in time that our Node script attempts to connect to the database. You may see errors if the connection string is incorrect, if the database doesn't exist, or if the table doesn't exist.
-knexInstance('amazong_products').select('*')
-    .then(result => {
-        console.log(result)
-    })
+// 2.
+// knexInstance
+//     .select('product_id', 'name', 'price', 'category')
+//     .from('amazong_products')
+//     .where({ name: 'Point of view gun' })
+//     .first() // will select the first item found and return only the object (no longer within an array)
+//     .then(result => {
+//         console.log(result)
+//     })
+    
+// 3.
+const qry = knexInstance
+    .select('product_id', 'name', 'price', 'category')
+    .from('amazong_products')
+    .where({ name: 'Point of view gun' })
+    .first()
+    .toQuery()
+
+console.log(qry)
