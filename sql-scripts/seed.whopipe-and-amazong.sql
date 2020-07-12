@@ -84,3 +84,7 @@ INSERT INTO amazong_products (name, price, category, image) VALUES
   ('Grain',                         665.99, 'Electronics', null);
 
 COMMIT;
+
+-- Run this seed script:
+-- psql -U dunder_mifflin -d knex-practice -f ./sql-scripts/seed.whopipe-and-amazong.sql
+
