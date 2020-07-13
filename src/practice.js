@@ -85,16 +85,23 @@ const knexInstance = knex({
 
 
 // 7. Find most popular videos within a timespan
+/* in SQL 
+SELECT video_name, region, count(date_viewed) AS views
+FROM whopipe_video_views
+	WHERE date_viewed > (now() - '30 days'::INTERVAL)
+GROUP BY video_name, region 
+ORDER BY region ASC, views DESC; 
+*/
 function mostPopularVideosForDays(days) {
     knexInstance
         .select('video_name', 'region')
         .count('date_viewed AS views')
+        .from('whopipe_video_views')
         .where(
-            'date viewed',
+            'date_viewed',
             '>',
             knexInstance.raw(`now() - '?? days'::INTERVAL`, days)
         )
-        .from('whopipe_video_views')
         .groupBy('video_name', 'region')
         .orderBy([
             { column: 'region', order: 'ASC'},
