@@ -10,13 +10,13 @@ const knexInstance = knex({
 // NOTE: this is asynchronous now, you will need to ctrl-c to close the script.
 
 // 1.
-console.log(knexInstance.from('amazong_products').select('*').toQuery())
-knexInstance
-    .from('amazong_products')
-    .select('*')
-    .then(result => {
-        console.log(result)
-    })
+// console.log(knexInstance.from('amazong_products').select('*').toQuery())
+// knexInstance
+//     .from('amazong_products')
+//     .select('*')
+//     .then(result => {
+//         console.log(result)
+//     })
 
 // 2.
 // knexInstance
@@ -71,14 +71,38 @@ knexInstance
 
 
 // 6. Filter.whereNotNull 
-function getProductsWithImages() {
+// function getProductsWithImages() {
+//     knexInstance
+//         .select('*')
+//         .from('amazong_products')
+//         .whereNotNull('image')
+//         .then(result => {
+//             console.log(result)
+//         })
+// }
+
+// getProductsWithImages()
+
+
+// 7. Find most popular videos within a timespan
+function mostPopularVideosForDays(days) {
     knexInstance
-        .select('*')
-        .from('amazong_products')
-        .whereNotNull('image')
+        .select('video_name', 'region')
+        .count('date_viewed AS views')
+        .where(
+            'date viewed',
+            '>',
+            knexInstance.raw(`now() - '?? days'::INTERVAL`, days)
+        )
+        .from('whopipe_video_views')
+        .groupBy('video_name', 'region')
+        .orderBy([
+            { column: 'region', order: 'ASC'},
+            { column: 'views', order: 'DESC'},
+        ])
         .then(result => {
             console.log(result)
         })
 }
 
-getProductsWithImages()
+mostPopularVideosForDays(30)
