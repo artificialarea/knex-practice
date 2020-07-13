@@ -10,13 +10,13 @@ const knexInstance = knex({
 // NOTE: this is asynchronous now, you will need to ctrl-c to close the script.
 
 // 1.
-// console.log(knexInstance.from('amazong_products').select('*').toQuery())
-// knexInstance
-//     .from('amazong_products')
-//     .select('*')
-//     .then(result => {
-//         console.log(result)
-//     })
+console.log(knexInstance.from('amazong_products').select('*').toQuery())
+knexInstance
+    .from('amazong_products')
+    .select('*')
+    .then(result => {
+        console.log(result)
+    })
 
 // 2.
 // knexInstance
@@ -54,17 +54,31 @@ const knexInstance = knex({
 
 
 // 5. Pagination
-function paginateProducts(page) {
-    const productsPerPage = 10
-    const offset = productsPerPage * (page - 1)
+// function paginateProducts(page) {
+//     const productsPerPage = 10
+//     const offset = productsPerPage * (page - 1)
+//     knexInstance
+//         .select('product_id', 'name', 'price', 'category')
+//         .from('amazong_products')
+//         .limit(productsPerPage)
+//         .offset(offset  )
+//         .then(result => {
+//             console.log(result)
+//         })
+// }
+
+// paginateProducts(2)
+
+
+// 6. Filter.whereNotNull 
+function getProductsWithImages() {
     knexInstance
-        .select('product_id', 'name', 'price', 'category')
+        .select('*')
         .from('amazong_products')
-        .limit(productsPerPage)
-        .offset(offset  )
+        .whereNotNull('image')
         .then(result => {
             console.log(result)
         })
 }
 
-paginateProducts(2)
+getProductsWithImages()
