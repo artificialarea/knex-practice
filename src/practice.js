@@ -29,11 +29,25 @@ const knexInstance = knex({
 //     })
     
 // 3.
-const qry = knexInstance
+// const qry = knexInstance
+//     .select('product_id', 'name', 'price', 'category')
+//     .from('amazong_products')
+//     .where({ name: 'Point of view gun' })
+//     .first()
+//     .toQuery()
+
+// console.log(qry)
+
+// 4.
+
+function searchByProduceName(searchTerm) {
+    knexInstance
     .select('product_id', 'name', 'price', 'category')
     .from('amazong_products')
-    .where({ name: 'Point of view gun' })
-    .first()
-    .toQuery()
+    .where('name', 'ILIKE', `%${searchTerm}%`)
+    .then(result => {
+        console.log(result)
+    })
+}
 
-console.log(qry)
+searchByProduceName('holo')
