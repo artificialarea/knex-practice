@@ -38,16 +38,33 @@ const knexInstance = knex({
 
 // console.log(qry)
 
-// 4.
 
-function searchByProduceName(searchTerm) {
+// 4. Search case insensitive
+// function searchByProduceName(searchTerm) {
+//     knexInstance
+//     .select('product_id', 'name', 'price', 'category')
+//     .from('amazong_products')
+//     .where('name', 'ILIKE', `%${searchTerm}%`)  // unlike LIKE, ILIKE is case insensitive... an insensitive like, as it were
+//     .then(result => {
+//         console.log(result)
+//     })
+// }
+
+// searchByProduceName('holo')
+
+
+// 5. Pagination
+function paginateProducts(page) {
+    const productsPerPage = 10
+    const offset = productsPerPage * (page - 1)
     knexInstance
-    .select('product_id', 'name', 'price', 'category')
-    .from('amazong_products')
-    .where('name', 'ILIKE', `%${searchTerm}%`)
-    .then(result => {
-        console.log(result)
-    })
+        .select('product_id', 'name', 'price', 'category')
+        .from('amazong_products')
+        .limit(productsPerPage)
+        .offset(offset  )
+        .then(result => {
+            console.log(result)
+        })
 }
 
-searchByProduceName('holo')
+paginateProducts(2)
