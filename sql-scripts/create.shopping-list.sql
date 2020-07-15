@@ -1,5 +1,5 @@
-DROP TYPE IF EXIST grocery; 
-CREATE TYPE grocery as enum(
+DROP TYPE IF EXISTS grocery; 
+CREATE TYPE grocery AS ENUM(
     'Main',
     'Snack',
     'Lunch',
@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS shopping_list (
     date_added TIMESTAMP DEFAULT now() NOT NULL,
     checked BOOLEAN DEFAULT false,
     category grocery NOT NULL
-)
+);
