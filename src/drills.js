@@ -67,13 +67,13 @@ function searchItemsAfterDate(daysAgo) {
 function totalCostPerCategory() {
   knexInstance
     .select("category")
-    .count("price AS total")
+    .count("price AS total_items")
     .from("shopping_list")
     .sum('price')
     .groupBy("category")
     .orderBy([
         { column: "category", order: "ASC" }, 
-        { column: 'total items', order: 'DESC'}
+        { column: 'total_items', order: 'DESC'}
     ])
     .then(results => console.log(results))
 }
