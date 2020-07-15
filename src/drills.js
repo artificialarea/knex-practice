@@ -24,4 +24,21 @@ function searchItemsByName(searchTerm) {
 
 }
 
-searchItemsByName('dog')
+// searchItemsByName('dog')
+
+//2.
+
+function paginate(page) {
+
+    const itemsPerPage = 6
+    const offset = itemsPerPage * ( page - 1 )
+
+    knexInstance
+    .select('*')
+    .from('shopping_list')
+    .limit(itemsPerPage)
+    .offset(offset)
+    .then(results => console.log(results))
+}
+
+paginate(2)
