@@ -1,5 +1,5 @@
-DROP TYPE IF EXIST grocery; 
-CREATE TYPE grocery as enum(
+DROP TYPE IF EXISTS grocery; 
+CREATE TYPE grocery AS ENUM(
     'Main',
     'Snack',
     'Lunch',
