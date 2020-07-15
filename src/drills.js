@@ -2,8 +2,8 @@ require('dotenv').config();
 const knex = require('knex');
 
 const knexInstance = knex({
-  client: 'pg',
-  connection: process.env.DB_URL,
+    client: 'pg',
+    connection: process.env.DB_URL,
 });
 
 // DRILLS ////////////////////////////////////////////////////
@@ -11,37 +11,49 @@ const knexInstance = knex({
 // 1. Get all items that contain text  ///////////////////////
 
 /* in SQL
-SELECT * FROM shopping_list
+SELECT * 
+FROM shopping_list
 WHERE name ILIKE '%dog%';
 */
 
 function searchItemsByName(searchTerm) {
-  knexInstance
-    .select('*')
-    .from('shopping_list')
-    .where('name', 'ILIKE', `%${searchTerm}%`)
-    .then((result) => {
-      console.log(result);
-    });
+    knexInstance
+        .select('*')
+        .from('shopping_list')
+        .where('name', 'ILIKE', `%${searchTerm}%`)
+        .then((result) => {
+            console.log(`SEARCH TERM: "${searchTerm}"`)
+            console.log(result);
+        });
 }
-// searchItemsByName('dog')
+searchItemsByName('dog')
 
 
 
 // 2. Get all items paginated  //////////////////////////////
 
-function paginate(page) {
-  const itemsPerPage = 6;
-  const offset = itemsPerPage * (page - 1);
+/* in SQL
+SELECT * 
+FROM shopping_list
+LIMIT 6
+    OFFSET 18; // for 'page 4'
+*/
 
-  knexInstance
-    .select('*')
-    .from('shopping_list')
-    .limit(itemsPerPage)
-    .offset(offset)
-    .then((results) => console.log(results));
+function paginate(page) {
+    const limit = 6;
+    const offset = limit * (page - 1);
+
+    knexInstance
+        .select('*')
+        .from('shopping_list')
+        .limit(limit)
+        .offset(offset)
+        .then((results) => {
+            console.log(`PAGINATE ITEMS`, page)
+            console.log(results)
+        });
 }
-// paginate(2)
+paginate(2)
 
 
 
@@ -50,35 +62,50 @@ function paginate(page) {
 /* in SQL 
 SELECT * 
 FROM shopping_list
-WHERE date_added > now() - `${daysAgo} days`::INTERVAL)
+WHERE date_added > (now() - '10 days'::INTERVAL)
 */
 
-function searchItemsAfterDate(daysAgo) {
-  knexInstance
-    .select('*')
-    .from('shopping_list')
-    .where(
-      'date_added',
-      '>',
-      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
-    )
-    .then((result) => {
-      console.log(result);
-    });
+function productsAddedDaysAgo(daysAgo) {
+    knexInstance
+        .select('*')
+        .from('shopping_list')
+        .where(
+            'date_added',
+            '>',
+            knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+        )
+        .then((result) => {
+            console.log(`PRODUCTS ADDED ${daysAgo} DAYS AGO`)
+            console.log(result);
+        });
 }
-// searchItemsAfterDate(2);
+productsAddedDaysAgo(2);
 
 
 
 // 4. Get total cost for each category  //////////////////////
 
+/* in SQL 
+SELECT category, COUNT(category) AS total_items, SUM(price) AS total_cost 
+FROM shopping_list
+GROUP BY category
+ORDER BY total_items DESC, total_cost;
+*/
+
 function totalCostPerCategory() {
-  knexInstance
-    .select('category')
-    .from('shopping_list')
-    .groupBy('category')
-    .sum('price AS total_cost')
-    .orderBy([{ column: 'total_cost', order: 'ASC' }])
-    .then(results => console.log(results))
+    knexInstance
+        .select('category')
+        .from('shopping_list')
+        .groupBy('category')
+        .count('category AS total_items')
+        .sum('price AS total_cost')
+        .orderBy([
+            { column: 'total_items', order: 'DESC' },
+            { column: 'total_cost' }
+        ])
+        .then(results => {
+            console.log(`COST PER CATEGORY`)
+            console.log(results)
+        })
 }
 totalCostPerCategory()

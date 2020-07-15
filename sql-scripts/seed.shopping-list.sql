@@ -36,3 +36,5 @@ VALUES
 ;
 
 COMMIT;
+
+-- $ psql -U dunder_mifflin -d knex-practice -f ./sql-scripts/seed.shopping-list.sql
