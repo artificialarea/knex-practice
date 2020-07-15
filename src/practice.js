@@ -9,7 +9,7 @@ const knexInstance = knex({
 // Knex query syntax equivalent to a SQL SELECT query
 // NOTE: this is asynchronous now, you will need to ctrl-c to close the script.
 
-// 1.
+// // 1.
 // console.log(knexInstance.from('amazong_products').select('*').toQuery())
 // knexInstance
 //     .from('amazong_products')
@@ -18,7 +18,7 @@ const knexInstance = knex({
 //         console.log(result)
 //     })
 
-// 2.
+// // 2.
 // knexInstance
 //     .select('product_id', 'name', 'price', 'category')
 //     .from('amazong_products')
@@ -28,7 +28,7 @@ const knexInstance = knex({
 //         console.log(result)
 //     })
     
-// 3.
+// // 3.
 // const qry = knexInstance
 //     .select('product_id', 'name', 'price', 'category')
 //     .from('amazong_products')
@@ -39,7 +39,7 @@ const knexInstance = knex({
 // console.log(qry)
 
 
-// 4. Search case insensitive
+// // 4. Search case insensitive
 // function searchByProduceName(searchTerm) {
 //     knexInstance
 //     .select('product_id', 'name', 'price', 'category')
@@ -53,7 +53,7 @@ const knexInstance = knex({
 // searchByProduceName('holo')
 
 
-// 5. Pagination
+// // 5. Pagination
 // function paginateProducts(page) {
 //     const productsPerPage = 10
 //     const offset = productsPerPage * (page - 1)
@@ -70,7 +70,7 @@ const knexInstance = knex({
 // paginateProducts(2)
 
 
-// 6. Filter.whereNotNull 
+// // 6. Filter.whereNotNull 
 // function getProductsWithImages() {
 //     knexInstance
 //         .select('*')
@@ -95,15 +95,18 @@ ORDER BY region ASC, views DESC;
 function mostPopularVideosForDays(days) {
     knexInstance
         .select('video_name', 'region')
-        .count('date_viewed AS views')
+        .count('date_viewed AS views')  // note seperate function, not part of .select()
         .from('whopipe_video_views')
         .where(
             'date_viewed',
             '>',
-            knexInstance.raw(`now() - '?? days'::INTERVAL`, days)
+            knexInstance.raw(`now() - '?? days'::INTERVAL`, days)   // feed SQL directly
+            // using a prepared statement with '??' signifying tainted user input
+            // other methods protect against SQL intection automatically
+            // but .raw() needs us to specifcy user input with ?? and using a separate argument
         )
         .groupBy('video_name', 'region')
-        .orderBy([
+        .orderBy([                              // multi-column sort
             { column: 'region', order: 'ASC'},
             { column: 'views', order: 'DESC'},
         ])
