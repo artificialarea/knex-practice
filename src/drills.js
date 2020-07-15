@@ -26,8 +26,9 @@ function searchItemsByName(searchTerm) {
 
 // searchItemsByName('dog')
 
-//2.
 
+
+//2. Get all items paginated
 function paginate(page) {
 
     const itemsPerPage = 6
@@ -41,4 +42,28 @@ function paginate(page) {
     .then(results => console.log(results))
 }
 
-paginate(2)
+// paginate(2)
+
+
+
+// 3. Get all items added after date
+/* in SQL 
+SELECT * 
+FROM shopping_list
+WHERE date_added > now() - `${daysAgo} days`::INTERVAL)
+*/
+function searchItemsAfterDate(daysAgo) {
+    knexInstance
+        .select('*')
+        .from('shopping_list')
+        .where(
+            'date_added',
+            '>',
+            knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+        )
+        .then(result => {
+            console.log(result)
+        })
+}
+
+searchItemsAfterDate(2)
