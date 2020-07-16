@@ -29,7 +29,13 @@ const ArticlesService = {
             .select('*')
             .where('id', id)
             .first()
-    }
+    },
+    deleteArticle(knex, id) {
+        return knex
+            .from('blogful_articles')
+            .where({ id })
+            .delete()
+    },
 
 }
 
