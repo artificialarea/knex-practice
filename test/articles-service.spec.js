@@ -1,6 +1,8 @@
 const ArticlesService = require('../src/articles-service')
 const knex = require('knex');
-const { expect } = require('chai');
+
+// compare with Thinkful reference spec
+// https://github.com/Thinkful-Ed/first-blogful-spec-solution/blob/master/test/articles-service.spec.js
 
 describe('ArticlesService object', () => {
     let db
