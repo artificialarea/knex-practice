@@ -60,22 +60,37 @@ ArticlesService.getAllArticles(knexInstance)
 //         console.log('This .then() is required in order for the function deleteArticle() to execute properly. Dunno why, tho =/')
 //     ) 
 
-    // ^^^^^^^^ WHY WON'T THIS DELETE ITEM?!??!?!?
+// ^^^^^^^^ WHY WON'T THIS DELETE ITEM?!??!?!?
 // ThinkChat says...
 
-/* "My hypothesis is that the function call is finishing before delete call to the database is and the delete operation just is happening as a result."
+// "My hypothesis is that the function call is finishing 
+// before delete call to the database is 
+// and the delete operation just is happening as a result."
 
-"Ultimately, the call to delete() is a promise; so, the call to deleteArticle() returns a promise. Since that call is not embedded in the middle of another promise chain, the main flow of code execution calls deleteArticle(), gets the promise, and then just exits the file. Because the code flow exits so quickly, the memory space that the promise for the delete operation is executing in gets dumped before the delete actually executes.
+// "Ultimately, the call to delete() is a promise; 
+// so, the call to deleteArticle() returns a promise. 
+// Since that call is not embedded in the middle of another promise chain, 
+// the main flow of code execution 
+// calls deleteArticle(), 
+// gets the promise, 
+// and then just exits the file. 
 
-The code in Promise chains gets executed outside the main flow code execution
+// Because the code flow exits so quickly, 
+// the memory space that the promise for the delete operation it's executing in 
+// gets dumped before the delete actually executes.
 
-That's my hypothesis about what is happening anyways." 
+// The code in Promise chains gets executed outside the main flow code execution
 
------ SOLUTION: append a .then() to either the invoking of the function or the function itself and it works. Dunno why, but it works.
+// That's my hypothesis about what is happening anyways." 
 
-ThinkChat says...
-"deleteArticle returned a promise that we did something with instead of just discarding and letting its memory be collected when the code flow exited the file."
-*/
+// SOLUTION!!! (???) 
+// Append a .then() to either the invoking of the function 
+// or the function itself and it works. Dunno why, but it works.
+
+// ThinkChat says...
+// "deleteArticle returned a promise that we did something with 
+// instead of just discarding and letting its memory be collected when the code flow exited the file."
+//
 
 
 // Btw, INSERT ARTICLE (works fine)
