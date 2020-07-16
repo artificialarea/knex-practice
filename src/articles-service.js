@@ -27,11 +27,15 @@ const ArticlesService = {
             .first()
     },
     deleteArticle(knex, id) {
-        console.log('deleteArticle id: ', id)
+        console.log('deleteArticle id: ', {id})
         return knex
             .from('blogful_articles')
             .where({ id })
             .delete()
+            // .then(
+            //     console.log('hello?')
+            // )
+            // ^^^^ see FOOTNOTES in blogful.js
     },
     updateArticle(knex, id, newArticleFields) {
         return knex
