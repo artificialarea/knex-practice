@@ -42,7 +42,7 @@ describe('ArticlesService object', () => {
 
     context(`Given 'blogful_articles' has data`, () => {
 
-        before(() => {
+        beforeEach(() => {
             return db
                 .into('blogful_articles')
                 .insert(testArticles)
@@ -60,6 +60,20 @@ describe('ArticlesService object', () => {
                     // })))
                 })
         });
+
+        it(`getById() resolves an article by id from 'blogful_articles' table`, () => {
+            const thirdId = 3;
+            const thirdTestArticle = testArticles[thirdId - 1]
+            return ArticlesService.getById(db, thirdId)
+                .then(actual => {
+                    expect(actual).to.eql({
+                        id: thirdId,
+                        title: thirdTestArticle.title,
+                        content: thirdTestArticle.content,
+                        date_published: thirdTestArticle.date_published,
+                    })
+                })
+        });
     });
 
     context(`Given 'blogful_articles' has no data`, () => {
@@ -74,17 +88,18 @@ describe('ArticlesService object', () => {
             const newArticle = {
                 title: 'Test new title',
                 content: 'Test new content',
-                date_published: new Date('2020-01-01T00:00:00.000Z')
+                date_published: new Date('2020-01-01T00:00:00.000Z'),
             }
             return ArticlesService.insertArticle(db, newArticle)
                 .then(actual => {
-                    console.log(actual)
-                    expect(actual).to.eql([{
+                    // console.log(actual)
+                    expect(actual).to.eql({
                         id: 1,
                         title: newArticle.title,
                         content: newArticle.content,
                         date_published: newArticle.date_published,
-                    }])
+                        // date_published: new Date(newArticle.date_published),
+                    })
                 })
         });
     })

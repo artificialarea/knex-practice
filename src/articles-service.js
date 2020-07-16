@@ -17,12 +17,19 @@ const ArticlesService = {
             .then(rows => {
                 return rows[0]
             })
-            // ^^^ .then to extract expected object out of an array.
-            // Alternatively, in the spec.js could have put expected object 
-            // *into* an array, e.g.
+            // ^^^ .then to extract the expected object out of the array.
+            // Alternatively, in the spec.js we could have put the 
+            // expected object *into* an array, e.g.
             // expect(actual).to.eql([{ }]), instead of
             // expect(actual).to.eql([   ])
     },
+    getById(knex, id) {
+        return knex
+            .from('blogful_articles')
+            .select('*')
+            .where('id', id)
+            .first()
+    }
 
 }
 

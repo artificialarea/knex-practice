@@ -1,6 +1,6 @@
 
 
-describe.skip(`Temporary Before & After spec`, () => {
+describe.skip(`Mocha Hooks —— before, after, each —— hierarchy spec sequence`, () => {
     before(() => {
       console.log('before #1')
     })
