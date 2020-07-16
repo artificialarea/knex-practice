@@ -35,7 +35,7 @@ describe('ArticlesService object', () => {
     before(() => db('blogful_articles').truncate())
     // To protect against a "test leak". Test leak is when one test is affecting another test, every test should clean up after itself. We can use an afterEach block to remove all of the data after each test:
     afterEach(() => db('blogful_articles').truncate())
-    
+
     // Need to explictly disconnect from the database at the end of all the tests, otherwise it hangs and we need to Ctrl-C to exit tests. This is because we hane an open database connection and the Node process thinks the script will want to stay running whislt the conncection is open.
     after(() => db.destroy())
 
@@ -65,9 +65,27 @@ describe('ArticlesService object', () => {
     context(`Given 'blogful_articles' has no data`, () => {
         it(`getAllArticles() resolves an empty array`, () => {
             return ArticlesService.getAllArticles(db)
-            .then(actual => {
-                expect(actual).to.eql([])
-            })
+                .then(actual => {
+                    expect(actual).to.eql([])
+                })
         })
+
+        it(`insertArticle() inserts a new article and resolves the new article with an 'id'`, () => {
+            const newArticle = {
+                title: 'Test new title',
+                content: 'Test new content',
+                date_published: new Date('2020-01-01T00:00:00.000Z')
+            }
+            return ArticlesService.insertArticle(db, newArticle)
+                .then(actual => {
+                    console.log(actual)
+                    expect(actual).to.eql([{
+                        id: 1,
+                        title: newArticle.title,
+                        content: newArticle.content,
+                        date_published: newArticle.date_published,
+                    }])
+                })
+        });
     })
 });
