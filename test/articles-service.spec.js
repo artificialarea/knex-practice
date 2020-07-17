@@ -5,7 +5,9 @@ const knex = require('knex');
 // https://github.com/Thinkful-Ed/first-blogful-spec-solution/blob/master/test/articles-service.spec.js
 
 describe('ArticlesService object', () => {
-    let db
+
+    let db;
+
     let testArticles = [
         {
             id: 1,
@@ -25,21 +27,21 @@ describe('ArticlesService object', () => {
             title: 'Third test post',
             content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, voluptate? Necessitatibus, reiciendis? Cupiditate totam laborum esse animi ratione ipsa dignissimos laboriosam eos similique cumque. Est nostrum esse porro id quaerat.'
         },
-    ]
+    ];
 
     before(() => {
         db = knex({
             client: 'pg',
             connection: process.env.TEST_DB_URL,
-        })
-    })
+        });
+    });
     // We need to clear the table so we have a fresh start every time we run the tests. The truncate method will remove all of the data from a table. 
-    before(() => db('blogful_articles').truncate())
+    before(() => db('blogful_articles').truncate());
     // To protect against a "test leak". Test leak is when one test is affecting another test, every test should clean up after itself. We can use an afterEach block to remove all of the data after each test:
-    afterEach(() => db('blogful_articles').truncate())
+    afterEach(() => db('blogful_articles').truncate());
 
     // At the end of all the tests, we beed to explictly disconnect from the database, otherwise it hangs and we need to Ctrl-C to exit tests. This is because we hane an open database connection and the Node process thinks the script will want to stay running whislt the conncection is open.
-    after(() => db.destroy())
+    after('destroy db connection', () => db.destroy());
 
 
     context(`Given 'blogful_articles' has data`, () => {
@@ -48,12 +50,12 @@ describe('ArticlesService object', () => {
             return db
                 .into('blogful_articles')
                 .insert(testArticles)
-        })
+        });
         
         it(`getAllArticles() resolves all articles from 'blogful_articles' table`, () => {
             return ArticlesService.getAllArticles(db) // injecting db variable so fn can access the Knex instance
                 .then(actual => {
-                    expect(actual).to.eql(testArticles)
+                    expect(actual).to.eql(testArticles);
                     // if having issues with hard-coded dates, 
                     // then run through a new Date constructor
                     // expect(actual).to.eql(testArticles.map(article => ({
@@ -65,7 +67,7 @@ describe('ArticlesService object', () => {
 
         it(`getById() resolves an article by id from 'blogful_articles' table`, () => {
             const thirdId = 3;
-            const thirdTestArticle = testArticles[thirdId - 1]
+            const thirdTestArticle = testArticles[thirdId - 1];
             return ArticlesService.getById(db, thirdId)
                 .then(actual => {
                     expect(actual).to.eql({
@@ -73,35 +75,35 @@ describe('ArticlesService object', () => {
                         title: thirdTestArticle.title,
                         content: thirdTestArticle.content,
                         date_published: thirdTestArticle.date_published,
-                    })
+                    });
                 })
         });
 
         it(`deleteArticle() removes and article by id from 'blogful_articles' table `, () => {
-            const articleId = 3
+            const articleId = 3;
             return ArticlesService.deleteArticle(db, articleId)
                 .then(() => ArticlesService.getAllArticles(db))
                 .then(allArticles => {
                     // copy the test articles array without the "deleted" article
-                    const expected = testArticles.filter(article => article.id !== articleId)
-                    expect(allArticles).to.eql(expected)
+                    const expected = testArticles.filter(article => article.id !== articleId);
+                    expect(allArticles).to.eql(expected);
                 })
         });
 
         it(`updateArticle() updates an article from the 'blogful_articles' table`, () => {
-            const idOfArticleToUpdate = 3
+            const idOfArticleToUpdate = 3;
             const newArticleData = {
                 title: 'updated title',
                 content: 'updated content',
                 date_published: new Date(),
-            }
+            };
             return ArticlesService.updateArticle(db, idOfArticleToUpdate, newArticleData)
                 .then(() => ArticlesService.getById(db, idOfArticleToUpdate))
                 .then(article => {
                     expect(article).to.eql({
                         id: idOfArticleToUpdate,
                         ...newArticleData,
-                    })
+                    });
                 })
 
         });
@@ -112,16 +114,16 @@ describe('ArticlesService object', () => {
         it(`getAllArticles() resolves an empty array`, () => {
             return ArticlesService.getAllArticles(db)
                 .then(actual => {
-                    expect(actual).to.eql([])
+                    expect(actual).to.eql([]);
                 })
-        })
+        });
 
         it(`insertArticle() inserts a new article and resolves the new article with an 'id'`, () => {
             const newArticle = {
                 title: 'Test new title',
                 content: 'Test new content',
                 date_published: new Date('2020-01-01T00:00:00.000Z'),
-            }
+            };
             return ArticlesService.insertArticle(db, newArticle)
                 .then(actual => {
                     // console.log(actual)
@@ -131,8 +133,8 @@ describe('ArticlesService object', () => {
                         content: newArticle.content,
                         date_published: newArticle.date_published,
                         // date_published: new Date(newArticle.date_published),
-                    })
+                    });
                 })
         });
-    })
+    });
 });
