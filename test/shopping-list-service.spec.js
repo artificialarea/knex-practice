@@ -86,6 +86,16 @@ describe('Shopping List service object', () => {
                 })
         });
 
+        it(`deleteItem() removes an item by id from 'shopping_list' table`, () => {
+            const theId = 2;
+            return ShoppingListService.deleteItem(db, theId)
+                .then(() => ShoppingListService.getAllItems(db))
+                .then(actual => {
+                    const expected = testList.filter(item => item.id !== theId)
+                    expect(actual).to.eql(expected);
+                })
+        });
+
     });
 
     context(`Given 'shopping_list' has no data`, () => {

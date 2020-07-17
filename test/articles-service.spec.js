@@ -80,7 +80,7 @@ describe.skip('ArticlesService object', () => {
                 })
         });
 
-        it(`deleteArticle() removes and article by id from 'blogful_articles' table `, () => {
+        it(`deleteArticle() removes an article by id from 'blogful_articles' table `, () => {
             const articleId = 3;
             return ArticlesService.deleteArticle(db, articleId)
                 .then(() => ArticlesService.getAllArticles(db))
