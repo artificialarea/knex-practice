@@ -8,7 +8,8 @@ describe('ArticlesService object', () => {
 
     let db;
 
-    let testArticles = [
+    // 'FIXTURE' (terminology for dummy data for testing)
+    let testArticles = [ 
         {
             id: 1,
             date_published: new Date('2029-01-22T16:28:32.615Z'),
@@ -137,4 +138,4 @@ describe('ArticlesService object', () => {
                 })
         });
     });
-});
+}); // describe the Article Service object

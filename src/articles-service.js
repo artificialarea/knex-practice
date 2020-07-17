@@ -1,6 +1,8 @@
 const ArticlesService = {
 
-    // knex db is being injected into this fn as a param
+    // DEPENDENCY INJECTION
+    // knex db is being injected into these fns as a param
+
     getAllArticles(knex) { 
         
         return knex.select('*').from('blogful_articles')
