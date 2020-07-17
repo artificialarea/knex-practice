@@ -96,6 +96,26 @@ describe('Shopping List service object', () => {
                 })
         });
 
+        it(`updateItem() updates an item from 'shopping_list' table`, () => {
+            const idOfItemToUpdate = 1;
+            const updatedItemData = {
+                name: 'Updated Test Item',
+                price: '2.50',
+                date_added: new Date('2020-01-01T00:00:00.000Z'),
+                checked: true,
+                category: 'Breakfast',
+
+            };
+            return ShoppingListService.updateItem(db, idOfItemToUpdate, updatedItemData)
+                .then(() => ShoppingListService.getById(db, idOfItemToUpdate))
+                .then(actual => {
+                    expect(actual).to.eql({
+                        id: idOfItemToUpdate,
+                        ...updatedItemData,
+                    })
+                })
+        })
+
     });
 
     context(`Given 'shopping_list' has no data`, () => {
