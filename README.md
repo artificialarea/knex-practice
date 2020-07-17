@@ -3,9 +3,8 @@
 **pair: Alen + Sacha**
 
 ### Database Drills
-per: https://courses.thinkful.com/node-postgres-v1/checkpoint/13
+* per: https://courses.thinkful.com/node-postgres-v1/checkpoint/13
 
-<br />
 
 ### Service Object Exercises
 * **Blogful Articles Service Object** per: https://courses.thinkful.com/node-postgres-v1/checkpoint/14
