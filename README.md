@@ -2,11 +2,15 @@
 
 **pair: Alen + Sacha**
 
-## Blogful Articles Service Object Assignment
+### Database Drills
 per: https://courses.thinkful.com/node-postgres-v1/checkpoint/13
 
-## Shopping List Service Object Assignment
-per: https://courses.thinkful.com/node-postgres-v1/checkpoint/14#assignment
+<br />
+
+### Service Object Exercises
+* **Blogful Articles Service Object** per: https://courses.thinkful.com/node-postgres-v1/checkpoint/14
+
+* **Shopping List Service Object Assignment** per: https://courses.thinkful.com/node-postgres-v1/checkpoint/14#assignment
 
 <br />
 
