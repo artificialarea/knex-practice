@@ -51,12 +51,12 @@ describe('Shopping List service object', () => {
     before(() => db('shopping_list').truncate());
     afterEach(() => db('shopping_list').truncate());
 
-    after(('destroy db connection'), () => db.destroy())
+    after('destroy db connection', () => db.destroy())
 
 
     context(`Given 'shopping_list' has data`, () => {
 
-        before(() => {
+        beforeEach(() => {
             return db
                 .into('shopping_list')
                 .insert(testList)
