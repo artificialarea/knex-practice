@@ -7,7 +7,7 @@ describe('Shopping List service object', () => {
 
     let db;
 
-    // Fixture
+    // FIXTURE
     let testList = [
         {
             id: 1,
@@ -35,6 +35,8 @@ describe('Shopping List service object', () => {
         },
     ];
 
+    // MOCHA LIFECYCLE HOOKS
+
     before(() => {
         db = knex({
             client: 'pg',
@@ -42,12 +44,12 @@ describe('Shopping List service object', () => {
         });
     });
 
-    
-    // reset table every time before running test suite 
-    // and after every test to protect against 'test leakage'.
+    // reset table every time 
+    // before running test suite and
+    // after each test 
+    // to protect against 'test leakage'
     before(() => db('shopping_list').truncate());
     afterEach(() => db('shopping_list').truncate());
-
 
     after(('destroy db connection'), () => db.destroy())
 
@@ -68,4 +70,36 @@ describe('Shopping List service object', () => {
         });
 
     });
+
+    context(`Given 'shopping_list' has no data`, () => {
+
+        it(`getAllItems() resolves an empty array`, () => {
+            return ShoppingListService.getAllItems(db)
+                .then(actual => {
+                    expect(actual).to.eql([]);
+                })
+        });
+
+        it(`insertItem() inserts a new item and resolves the new item with an 'id'`, () => {
+            const newItem = {
+                name: 'Test new title insert',
+                price: '100.00',
+                date_added: new Date('2020-01-01T00:00:00.000Z'),
+                checked: false,
+                category: 'Breakfast',
+            };
+
+            return ShoppingListService.insertItem(db, newItem)
+                .then(actual => {
+                    expect(actual).to.eql({
+                        id: 1,
+                        name: newItem.name,
+                        price: newItem.price,
+                        date_added: newItem.date_added,
+                        checked: newItem.checked,
+                        category: newItem.category,
+                    });
+                })
+        });
+    })
 });
