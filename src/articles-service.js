@@ -48,4 +48,4 @@ const ArticlesService = {
 
 }
 
-module.exports = ArticlesService
+module.exports = ArticlesService;

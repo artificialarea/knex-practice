@@ -4,7 +4,7 @@ const knex = require('knex');
 // compare with Thinkful reference spec
 // https://github.com/Thinkful-Ed/first-blogful-spec-solution/blob/master/test/articles-service.spec.js
 
-describe('ArticlesService object', () => {
+describe.skip('ArticlesService object', () => {
 
     let db;
 

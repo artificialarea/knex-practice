@@ -7,6 +7,10 @@ const knexInstance = knex({
     connection: process.env.DB_URL,
 })
 
+
+// ARTICLES SERVICE OBJECT EXERCISE ////////////////////////////////////////////
+// src: https://courses.thinkful.com/node-postgres-v1/checkpoint/14
+
 // console.log(ArticlesService.getAllArticles(knexInstance))
 
 // Use all of the ArticlesService methods:
