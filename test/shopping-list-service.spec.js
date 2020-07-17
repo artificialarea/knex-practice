@@ -69,6 +69,23 @@ describe('Shopping List service object', () => {
                 })
         });
 
+        it(`getById() resolves an item by id from 'shopping_list' table`, () => {
+            const theId = 2;
+            const theTestItem = testList[theId - 1];
+            return ShoppingListService.getById(db, theId)
+                .then(actual => {
+                    console.log(actual);
+                    expect(actual).to.eql({
+                        id: theId,
+                        name: theTestItem.name,
+                        price: theTestItem.price,
+                        date_added: theTestItem.date_added,
+                        checked: theTestItem.checked,
+                        category: theTestItem.category,
+                    });
+                })
+        });
+
     });
 
     context(`Given 'shopping_list' has no data`, () => {
