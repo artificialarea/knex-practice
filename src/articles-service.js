@@ -1,3 +1,6 @@
+// ARTICLES SERVICE OBJECT EXERCISE ////////////////////////////////////////////
+// src: https://courses.thinkful.com/node-postgres-v1/checkpoint/14
+
 const ArticlesService = {
 
     // DEPENDENCY INJECTION

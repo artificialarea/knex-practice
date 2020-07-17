@@ -2,8 +2,11 @@
 
 **pair: Alen + Sacha**
 
+## Blogful Articles Service Object Assignment
 per: https://courses.thinkful.com/node-postgres-v1/checkpoint/13
 
+## Shopping List Service Object Assignment
+per: https://courses.thinkful.com/node-postgres-v1/checkpoint/14#assignment
 
 <br />
 

@@ -1,3 +1,6 @@
+// SHOPPING LIST SERVICE OBJECT ASSIGNMENT //////////////////////////////////////
+// src: https://courses.thinkful.com/node-postgres-v1/checkpoint/14#assignment
+
 const ShoppingListService = {
 
     getAllItems(knex) {
