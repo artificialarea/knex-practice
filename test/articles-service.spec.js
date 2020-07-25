@@ -61,7 +61,7 @@ describe.skip('ArticlesService object', () => {
                     // then run through a new Date constructor
                     // expect(actual).to.eql(testArticles.map(article => ({
                     //     ...article,
-                    //     date_published: new Date(article.date_published)
+                    //     date_published: new bookerDate(article.date_published)
                     // })))
                 })
         });

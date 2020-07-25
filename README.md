@@ -2,6 +2,10 @@
 
 **pair: Alen + Sacha**
 
+### Relationships and Schema Design exercises
+* per: https://courses.thinkful.com/node-postgres-v1/checkpoint/18#creating-relationships-with-sql
+
+
 ### Database Drills
 * per: https://courses.thinkful.com/node-postgres-v1/checkpoint/13
 
